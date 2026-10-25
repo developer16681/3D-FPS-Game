@@ -28,8 +28,13 @@ class Player(FirstPersonController):
         self.sprinting = bool(held_keys["left shift"] and held_keys["w"])
         self.speed = config.SPRINT_SPEED if self.sprinting else config.WALK_SPEED
 
-        target_fov = config.SPRINT_FOV if self.sprinting else config.BASE_FOV
-        camera.fov = lerp(camera.fov, target_fov, min(1.0, dt * 8))
+        if hasattr(self.game, "weapon") and getattr(self.game.weapon, "is_scoped", False):
+            target_fov = 25.0
+        elif self.sprinting:
+            target_fov = config.SPRINT_FOV
+        else:
+            target_fov = config.BASE_FOV
+        camera.fov = lerp(camera.fov, target_fov, min(1.0, dt * 12))
 
         super().update()                       # mouse look (pitch clamped), WASD, gravity, jump
 

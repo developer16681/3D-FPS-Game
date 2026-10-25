@@ -10,7 +10,9 @@
 | Left Shift (+W) | sprint (FOV kick, wider crosshair) |
 | Space | jump |
 | Mouse | look (vertical clamped to ±90°) |
-| Left Mouse (hold) | fire (full-auto) |
+| 1 - 5 / Mouse Wheel | switch weapon (Pistol, Rifle, Shotgun, SMG, Sniper) |
+| Right Mouse (hold) | sniper scope zoom (25° FOV) |
+| Left Mouse (click/hold) | fire (semi/full auto per gun) |
 | R | reload; on the game-over/victory screen: restart |
 | F1/F2 | music volume -/+ |
 | F3/F4 | SFX volume -/+ |

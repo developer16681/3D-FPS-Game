@@ -22,16 +22,32 @@ from panda3d.core import Filename
 
 import config
 
-SFX_NAMES = ("gunshot", "dry_fire", "reload", "hit_marker",
+SFX_NAMES = ("gunshot", "gunshot_pistol", "gunshot_rifle", "gunshot_smg",
+             "gunshot_shotgun", "gunshot_sniper",
+             "dry_fire", "reload", "hit_marker",
              "enemy_pain", "enemy_death", "player_hurt")
 MUSIC_NAME = "bgm"
 EXTENSIONS = (".wav", ".ogg", ".mp3")
-POOL_SIZES = {"gunshot": 6, "enemy_pain": 4, "hit_marker": 3, "enemy_death": 3}
+POOL_SIZES = {
+    "gunshot": 6, "gunshot_pistol": 4, "gunshot_rifle": 6, "gunshot_smg": 8,
+    "gunshot_shotgun": 4, "gunshot_sniper": 3,
+    "enemy_pain": 4, "hit_marker": 3, "enemy_death": 3
+}
 
 # ursfx fallbacks: (volume_curve, kwargs). ursfx REQUIRES exactly 5 (time, volume) points.
 PROCEDURAL = {
     "gunshot": ([(0.0, 0.0), (0.01, 1.0), (0.06, 0.55), (0.2, 0.15), (0.4, 0.0)],
                 dict(volume=0.6, wave="noise", pitch=-12, pitch_change=-12, speed=4.0)),
+    "gunshot_pistol": ([(0.0, 0.0), (0.01, 0.9), (0.04, 0.5), (0.12, 0.1), (0.25, 0.0)],
+                       dict(volume=0.55, wave="noise", pitch=-6, pitch_change=-14, speed=5.0)),
+    "gunshot_rifle": ([(0.0, 0.0), (0.01, 1.0), (0.06, 0.55), (0.2, 0.15), (0.4, 0.0)],
+                      dict(volume=0.6, wave="noise", pitch=-12, pitch_change=-12, speed=4.0)),
+    "gunshot_smg": ([(0.0, 0.0), (0.01, 0.8), (0.04, 0.4), (0.1, 0.1), (0.2, 0.0)],
+                    dict(volume=0.45, wave="noise", pitch=-8, pitch_change=-10, speed=6.0)),
+    "gunshot_shotgun": ([(0.0, 0.0), (0.02, 1.0), (0.1, 0.7), (0.35, 0.2), (0.6, 0.0)],
+                        dict(volume=0.75, wave="noise", pitch=-16, pitch_change=-16, speed=2.5)),
+    "gunshot_sniper": ([(0.0, 0.0), (0.01, 1.0), (0.08, 0.8), (0.4, 0.3), (0.8, 0.0)],
+                       dict(volume=0.85, wave="noise", pitch=-14, pitch_change=-18, speed=2.0)),
     "dry_fire": ([(0.0, 0.0), (0.02, 1.0), (0.04, 0.3), (0.06, 0.6), (0.1, 0.0)],
                  dict(volume=0.4, wave="square", pitch=4, pitch_change=0, speed=3.0)),
     "reload": ([(0.0, 0.0), (0.05, 0.8), (0.15, 0.0), (0.4, 0.9), (0.55, 0.0)],
@@ -130,6 +146,9 @@ class AudioManager:
                 pass
         elif self._proc_ok and name in PROCEDURAL:
             self._play_procedural(name, level)
+        elif name.startswith("gunshot_"):
+            # Fallback to base gunshot if specific gun sound pool/procedural is absent
+            self.play("gunshot", volume=volume, pitch_var=pitch_var)
 
     def _play_procedural(self, name, level):
         now = time.time()
@@ -146,6 +165,16 @@ class AudioManager:
             self._proc_ok = False
 
     # -------------------------------------------------------------- music
+    def set_music(self, name):
+        path = self._find(name)
+        if not path:
+            return
+        self.stop_music()
+        self._music = self._load(path)
+        if self._music:
+            self._music.setLoop(True)
+            self.start_music()
+
     def start_music(self):
         if self._music:
             self._apply_music_volume()

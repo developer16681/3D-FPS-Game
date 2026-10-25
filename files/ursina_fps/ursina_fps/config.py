@@ -23,15 +23,22 @@ SPRINT_FOV = 100
 REGEN_DELAY = 6.0          # seconds without damage before regen starts
 REGEN_RATE = 5.0           # hp / second
 
-# --------------------------------------------------------------- weapon
-MAG_SIZE = 30
-START_RESERVE = 90
-MAX_RESERVE = 180
-AMMO_PER_WAVE = 60         # reserve ammo granted when a wave is cleared
+# --------------------------------------------------------------- weapons
+WEAPONS = {
+    "pistol":  dict(mag=12, reserve=60,  max_reserve=120, interval=0.25, damage=35, pellets=1,
+                    pellet_spread=0.0,  reload=1.2, auto=False, recoil=0.7,  kick=0.6),
+    "rifle":   dict(mag=30, reserve=90,  max_reserve=180, interval=0.11, damage=20, pellets=1,
+                    pellet_spread=0.0,  reload=1.6, auto=True,  recoil=1.0,  kick=0.7),
+    "smg":     dict(mag=40, reserve=120, max_reserve=240, interval=0.07, damage=12, pellets=1,
+                    pellet_spread=0.01, reload=1.5, auto=True,  recoil=0.6,  kick=0.5),
+    "shotgun": dict(mag=6,  reserve=24,  max_reserve=48,  interval=0.85, damage=10, pellets=8,
+                    pellet_spread=0.08, reload=2.4, auto=False, recoil=2.2,  kick=2.0),
+    "sniper":  dict(mag=5,  reserve=20,  max_reserve=40,  interval=1.2,  damage=110, pellets=1,
+                    pellet_spread=0.0,  reload=2.8, auto=False, recoil=2.5,  kick=2.5),
+}
+START_WEAPONS = ["pistol", "rifle", "shotgun"]
+AMMO_PER_WAVE = 30         # reserve ammo granted per gun when a wave is cleared
 HEAL_PER_WAVE = 25         # hp granted when a wave is cleared
-FIRE_INTERVAL = 0.11       # seconds between shots (full-auto while held)
-RELOAD_TIME = 1.6
-DAMAGE = 20
 HEADSHOT_MULT = 2.0
 HEAD_HEIGHT = 1.5          # hit height / enemy scale above which it's a headshot
 MAX_RANGE = 150

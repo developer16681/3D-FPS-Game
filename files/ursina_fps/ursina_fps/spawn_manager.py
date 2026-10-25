@@ -35,6 +35,10 @@ class SpawnManager(Entity):
         self.to_spawn = config.ENEMIES_BASE + (self.wave - 1) * config.ENEMIES_PER_WAVE
         self.spawn_timer = 0.0
         self.state = "active"
+        if self.wave >= 3:
+            self.game.audio.set_music("bgm_intense")
+        else:
+            self.game.audio.set_music("bgm")
         self.game.hud.set_wave(self.wave)
         self.game.hud.banner(f"WAVE {self.wave}", 2.0)
 

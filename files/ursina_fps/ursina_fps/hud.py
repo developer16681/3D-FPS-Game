@@ -48,7 +48,7 @@ class HUD(Entity):
         self.toast_text = self._text("", 0, B + 0.2, 1.1, (0, 0), color.light_gray)
         self._toast_t = 0.0
         self.hint_text = self._text(
-            "WASD move | Shift sprint | Space jump | LMB fire | R reload | F1-F4 volume | M mute | Esc quit",
+            "WASD move | Shift sprint | 1-5 / Wheel weapons | RMB zoom | LMB fire | R reload | F1-F4 vol | M mute",
             0, -0.4, 0.9, (0, 0), color.light_gray)
         self._hint_t = 9.0
 
@@ -121,7 +121,7 @@ class HUD(Entity):
         g = self.game
         w, p = g.weapon, g.player
 
-        # dynamic crosshair
+        # dynamic crosshair (or sniper scope crosshairs)
         target = 0.012 + w.spread * 0.055
         self.gap = lerp(self.gap, target, min(1.0, dt * 14))
         gp = self.gap + 0.008
@@ -131,8 +131,10 @@ class HUD(Entity):
         self._ch[3].position = Vec3(0, -gp, 0)
 
         # ammo
-        self.ammo_text.text = f"{w.mag:02d} / {w.reserve}"
-        self.ammo_text.color = color.red if w.mag <= config.MAG_SIZE * 0.2 else color.white
+        gun_name = getattr(w, "current", "GUN").upper()
+        mag_cap = w.stats.get("mag", 30) if hasattr(w, "stats") else 30
+        self.ammo_text.text = f"{gun_name}  {w.mag:02d} / {w.reserve}"
+        self.ammo_text.color = color.red if w.mag <= mag_cap * 0.25 else color.white
         self.reload_text.enabled = w.reloading
 
         # health
