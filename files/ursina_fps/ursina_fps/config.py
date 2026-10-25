@@ -47,24 +47,30 @@ AUTO_RELOAD_ON_EMPTY = True
 # ---------------------------------------------------------------- enemy
 # colours are HSV tuples (hue 0-360, sat 0-1, val 0-1)
 ENEMY_TYPES = {
-    "grunt":  dict(health=60,  speed=3.2, damage=8,  scale=1.00, weight=6, min_wave=1,
-                   skin=(95, 0.45, 0.55),  cloth=(215, 0.40, 0.35)),
-    "runner": dict(health=35,  speed=5.6, damage=6,  scale=0.88, weight=3, min_wave=2,
-                   skin=(30, 0.45, 0.75),  cloth=(0, 0.55, 0.45)),
-    "brute":  dict(health=180, speed=2.2, damage=18, scale=1.35, weight=2, min_wave=3,
-                   skin=(280, 0.30, 0.50), cloth=(35, 0.50, 0.30)),
+    "grunt":    dict(health=60,  speed=3.2, damage=8,  scale=1.00, weight=7, min_wave=1,
+                     skin=(95, 0.45, 0.55),  cloth=(215, 0.40, 0.35)),
+    "runner":   dict(health=35,  speed=5.6, damage=6,  scale=0.88, weight=5, min_wave=2,
+                     skin=(30, 0.45, 0.75),  cloth=(0, 0.55, 0.45)),
+    "brute":    dict(health=180, speed=2.2, damage=18, scale=1.35, weight=4, min_wave=4,
+                     skin=(280, 0.30, 0.50), cloth=(35, 0.50, 0.30)),
+    "stalker":  dict(health=95,  speed=4.5, damage=14, scale=1.05, weight=4, min_wave=7,
+                     skin=(180, 0.60, 0.60), cloth=(220, 0.60, 0.25)),
+    "titan":    dict(health=380, speed=2.0, damage=28, scale=1.60, weight=3, min_wave=11,
+                     skin=(10, 0.75, 0.45),  cloth=(0, 0.85, 0.25)),
+    "overlord": dict(health=750, speed=2.4, damage=35, scale=1.90, weight=2, min_wave=16,
+                     skin=(290, 0.80, 0.70), cloth=(45, 0.90, 0.50)),
 }
 ENEMY_ATTACK_RANGE = 1.9
 ENEMY_ATTACK_COOLDOWN = 1.0
 
 # -------------------------------------------------------------- spawning
-WAVES_TO_WIN = 5
+WAVES_TO_WIN = 20
 ENDLESS = False            # True -> never show the victory screen
 ENEMIES_BASE = 5
-ENEMIES_PER_WAVE = 3
-MAX_ALIVE = 14             # performance cap on simultaneous enemies
-SPAWN_INTERVAL = 0.9
-INTERMISSION = 4.0
+ENEMIES_PER_WAVE = 2       # scales smoothly up to 43 total enemies at wave 20
+MAX_ALIVE = 18             # performance cap on simultaneous enemies
+SPAWN_INTERVAL = 0.8
+INTERMISSION = 3.5
 SPAWN_MIN_DIST = 22
 SPAWN_MAX_DIST = 38
 

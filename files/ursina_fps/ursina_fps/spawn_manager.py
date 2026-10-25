@@ -40,7 +40,12 @@ class SpawnManager(Entity):
         else:
             self.game.audio.set_music("bgm")
         self.game.hud.set_wave(self.wave)
-        self.game.hud.banner(f"WAVE {self.wave}", 2.0)
+        if self.wave == config.WAVES_TO_WIN:
+            self.game.hud.banner(f"FINAL WAVE {self.wave} - SURVIVE!", 3.0)
+        elif self.wave % 5 == 0:
+            self.game.hud.banner(f"WAVE {self.wave} - BOSS WAVE", 2.5)
+        else:
+            self.game.hud.banner(f"WAVE {self.wave}", 2.0)
 
     def _wave_cleared(self):
         if self.wave >= config.WAVES_TO_WIN and not config.ENDLESS:

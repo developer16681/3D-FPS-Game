@@ -18,9 +18,10 @@ class Enemy(Entity):
 
         self.scale = cfg["scale"]
         k = wave - 1
-        self.max_health = cfg["health"] * (1 + 0.12 * k)
+        # Progressive health & speed scaling tuned for 20 waves
+        self.max_health = cfg["health"] * (1.0 + 0.07 * k)
         self.health = self.max_health
-        self.speed = cfg["speed"] * min(1.5, 1 + 0.04 * k)
+        self.speed = cfg["speed"] * min(1.4, 1.0 + 0.02 * k)
         self.damage = cfg["damage"]
         self.attack_range = config.ENEMY_ATTACK_RANGE + 0.5 * (cfg["scale"] - 1)
         self.stop_distance = self.attack_range - 0.4
