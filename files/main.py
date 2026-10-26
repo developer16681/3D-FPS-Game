@@ -1,4 +1,14 @@
 """Arena Shooter - run with:  python main.py"""
+import os
+import sys
+from pathlib import Path
+
+# Ensure nested game directory is on path and cwd
+game_dir = Path(__file__).resolve().parent / "ursina_fps" / "ursina_fps"
+if game_dir.is_dir() and str(game_dir) not in sys.path:
+    sys.path.insert(0, str(game_dir))
+    os.chdir(str(game_dir))
+
 from ursina import *
 
 import config

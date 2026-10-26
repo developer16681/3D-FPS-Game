@@ -97,9 +97,11 @@ class AudioManager:
                 missing.append(name)
 
         music_path = self._find(MUSIC_NAME)
+        self.current_track = None
         if music_path:
-            self._music = self._load(music_path)
+            self._music = self._load_music(music_path)
             if self._music:
+                self.current_track = MUSIC_NAME
                 self._music.setLoop(True)
         else:
             missing.append(MUSIC_NAME)
@@ -122,7 +124,14 @@ class AudioManager:
         try:
             return self._loader.loadSfx(Filename.fromOsSpecific(str(path)).getFullpath())
         except Exception as exc:                          # noqa: BLE001
-            print(f"[audio] could not load {path.name}: {exc}")
+            print(f"[audio] could not load SFX {path.name}: {exc}")
+            return None
+
+    def _load_music(self, path):
+        try:
+            return self._loader.loadMusic(Filename.fromOsSpecific(str(path)).getFullpath())
+        except Exception as exc:                          # noqa: BLE001
+            print(f"[audio] could not load BGM {path.name}: {exc}")
             return None
 
     # ---------------------------------------------------------------- sfx
@@ -165,38 +174,62 @@ class AudioManager:
             self._proc_ok = False
 
     # -------------------------------------------------------------- music
-    def set_music(self, name):
+    def set_music(self, name, loop=True):
+        if self.current_track == name and self._music and self._music.status() == 2:
+            return
         path = self._find(name)
         if not path:
             return
         self.stop_music()
-        self._music = self._load(path)
+        self._music = self._load_music(path)
         if self._music:
-            self._music.setLoop(True)
+            self.current_track = name
+            self._music.setLoop(loop)
             self.start_music()
 
     def start_music(self):
         if self._music:
             self._apply_music_volume()
-            self._music.play()
+            try:
+                self._music.play()
+            except Exception as exc:
+                print(f"[audio] failed to play music: {exc}")
 
     def stop_music(self):
         if self._music:
-            self._music.stop()
+            try:
+                self._music.stop()
+            except Exception:
+                pass
+        self.current_track = None
+
+    def pause_music(self):
+        if self._music and self._music.status() == 2:
+            try:
+                self._music.stop()
+            except Exception:
+                pass
+
+    def resume_music(self):
+        if self._music and self._music.status() != 2:
+            self.start_music()
 
     def _apply_music_volume(self):
         if self._music:
             vol = 0.0 if self.muted else self.master * self.music_volume
-            self._music.setVolume(max(0.0, min(1.0, vol)))
+            try:
+                self._music.setVolume(max(0.0, min(1.0, vol)))
+            except Exception:
+                pass
 
     # ------------------------------------------------------- volume keys
     def change_music(self, delta):
-        self.music_volume = max(0.0, min(1.0, self.music_volume + delta))
+        self.music_volume = max(0.0, min(1.0, round(self.music_volume + delta, 2)))
         self._apply_music_volume()
         self._notify(f"Music volume: {round(self.music_volume * 100)}%")
 
     def change_sfx(self, delta):
-        self.sfx_volume = max(0.0, min(1.0, self.sfx_volume + delta))
+        self.sfx_volume = max(0.0, min(1.0, round(self.sfx_volume + delta, 2)))
         self._notify(f"SFX volume: {round(self.sfx_volume * 100)}%")
         self.play("hit_marker")
 

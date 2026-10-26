@@ -1,7 +1,9 @@
 Place your sound files here (.wav, .ogg or .mp3). Names must match exactly:
 
-  bgm              combat music (waves 1-2)
-  bgm_intense      combat music (waves 3+)
+  bgm              combat music (waves 1-2, 128 BPM cyberpunk synthwave)
+  bgm_intense      intense combat music (waves 3+, 142 BPM heavy industrial drive)
+  bgm_gameover     defeat stinger / melancholy drone
+  bgm_victory      victory fanfare
   gunshot          default weapon fire
   gunshot_pistol   pistol fire
   gunshot_rifle    rifle fire
@@ -16,5 +18,6 @@ Place your sound files here (.wav, .ogg or .mp3). Names must match exactly:
   player_hurt      player damaged
 
 Anything missing falls back to a procedural ursfx beep or generic gunshot sound.
-BGM tracks (bgm.wav and bgm_intense.wav) are provided by default!
+BGM tracks (bgm.wav, bgm_intense.wav, bgm_gameover.wav, bgm_victory.wav) are provided by default!
+You can regenerate or tweak them anytime by running `python generate_audio.py`.
 

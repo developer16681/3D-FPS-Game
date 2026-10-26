@@ -76,8 +76,8 @@ SPAWN_MAX_DIST = 38
 
 # ----------------------------------------------------------------- audio
 MASTER_VOLUME = 0.8
-MUSIC_VOLUME = 0.35
-SFX_VOLUME = 0.9
+MUSIC_VOLUME = 0.45
+SFX_VOLUME = 0.85
 USE_PROCEDURAL_FALLBACK = True   # use ursfx beeps when a .wav/.ogg is missing
 
 # ------------------------------------------------------------------- vfx

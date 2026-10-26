@@ -37,11 +37,10 @@
 ## Audio files
 Put files in `assets/audio/` (`.wav`, `.ogg` or `.mp3`), named exactly:
 
-`bgm`, `gunshot`, `dry_fire`, `reload`, `hit_marker`, `enemy_pain`, `enemy_death`, `player_hurt`
+`bgm`, `bgm_intense`, `bgm_gameover`, `bgm_victory`, `gunshot`, `dry_fire`, `reload`, `hit_marker`, `enemy_pain`, `enemy_death`, `player_hurt`
 
-Anything missing is replaced by a procedural `ursfx` beep (BGM falls back to silence), and a
-one-line summary of what's missing is printed at startup. Set
-`USE_PROCEDURAL_FALLBACK = False` in `config.py` for pure silence.
+Studio-quality looping BGM tracks (`bgm.wav`, `bgm_intense.wav`, `bgm_gameover.wav`, `bgm_victory.wav`) are included. You can customize or regenerate them with `python generate_audio.py`.
+Anything missing falls back to a procedural `ursfx` beep (or silence if procedural fallback is disabled in `config.py`).
 
 ## Gameplay notes
 - Headshots (upper body/head) deal ×2 damage; the hit marker turns orange for a headshot, red for a kill.

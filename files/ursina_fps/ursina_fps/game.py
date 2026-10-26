@@ -28,7 +28,6 @@ class Game(Entity):
         self.audio.on_volume_change = self.hud.toast
 
         self.restart()
-        self.audio.start_music()
 
     # ---------------------------------------------------------- lifecycle
     def restart(self):
@@ -43,6 +42,7 @@ class Game(Entity):
         self.vfx.clear()
         self.hud.reset()
         mouse.locked = True
+        self.audio.set_music("bgm", loop=True)
 
     def finish(self, win):
         if self.state != "playing":
@@ -52,6 +52,10 @@ class Game(Entity):
         self.weapon.enabled = False
         mouse.locked = False
         self.hud.show_end(win)
+        if win:
+            self.audio.set_music("bgm_victory", loop=False)
+        else:
+            self.audio.set_music("bgm_gameover", loop=False)
 
     def on_enemy_killed(self, enemy):
         self.kills += 1
