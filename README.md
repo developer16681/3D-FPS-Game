@@ -10,7 +10,9 @@
 | Left Shift (+W) | sprint (FOV kick, wider crosshair) |
 | Space | jump |
 | Mouse | look (vertical clamped to ±90°) |
-| Left Mouse (hold) | fire (full-auto) |
+| 1 - 5 / Mouse Wheel | switch weapon (Pistol, Rifle, Shotgun, SMG, Sniper) |
+| Right Mouse (hold) | sniper scope zoom (25° FOV) |
+| Left Mouse (click/hold) | fire (semi/full auto per gun) |
 | R | reload; on the game-over/victory screen: restart |
 | F1/F2 | music volume -/+ |
 | F3/F4 | SFX volume -/+ |
@@ -35,11 +37,10 @@
 ## Audio files
 Put files in `assets/audio/` (`.wav`, `.ogg` or `.mp3`), named exactly:
 
-`bgm`, `gunshot`, `dry_fire`, `reload`, `hit_marker`, `enemy_pain`, `enemy_death`, `player_hurt`
+`bgm`, `bgm_intense`, `bgm_gameover`, `bgm_victory`, `gunshot`, `dry_fire`, `reload`, `hit_marker`, `enemy_pain`, `enemy_death`, `player_hurt`
 
-Anything missing is replaced by a procedural `ursfx` beep (BGM falls back to silence), and a
-one-line summary of what's missing is printed at startup. Set
-`USE_PROCEDURAL_FALLBACK = False` in `config.py` for pure silence.
+Studio-quality looping BGM tracks (`bgm.wav`, `bgm_intense.wav`, `bgm_gameover.wav`, `bgm_victory.wav`) are included. You can customize or regenerate them with `python generate_audio.py`.
+Anything missing falls back to a procedural `ursfx` beep (or silence if procedural fallback is disabled in `config.py`).
 
 ## Gameplay notes
 - Headshots (upper body/head) deal ×2 damage; the hit marker turns orange for a headshot, red for a kill.
@@ -48,3 +49,10 @@ one-line summary of what's missing is printed at startup. Set
   or set `ENDLESS = True` for endless mode.
 - The game uses Ursina's default unlit shader (no scene lights), so the muzzle flash is a bright
   emissive mesh rather than a real light.
+
+## Contributing
+Contributions, issues, and feature requests are welcome! Feel free to fork the repository and submit pull requests.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
